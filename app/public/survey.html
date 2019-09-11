@@ -165,7 +165,7 @@
 <script type="text/javascript">
 
     $("#submit").on("click", function (event) {
-
+        event.preventDefault();
         var newFriend = {
             name: $("#name").val().trim(),
             photo: $("#photo").val().trim(),
@@ -185,13 +185,44 @@
         console.log(newFriend);
         $.post("/api/friends", newFriend)
             .then(function (data) {
-                console.log("friends.html", data);
-                alert("Finding Friend...");
+
+                var newFriendScore = 0;
+                for (var i = 0; i < newFriend.scores.length; i++) {
+                    newFriendScore += parseInt(newFriend.scores[i])
+                }
+                console.log("Your Score: " + newFriendScore);
+                $.get("/api/friends")
+                    .then(function (data) {
+                        alert("Finding Friend...");
+
+
+
+                        for (var j = 0; j < data.length -1; j++) {
+
+                            var otherFriendScore = 0;
+                            for (var i = 0; i < data[j].scores.length; i++) {
+                                otherFriendScore += parseInt(data[j].scores[i])
+                            }
+                            console.log("other friend score:  " + otherFriendScore);
+                            var closestName = "";
+                            var closest = 0;
+                            var compare = Math.abs(newFriendScore - otherFriendScore);
+                            if (closest == 0) {
+                                closest = compare;
+                                closestName = data[j].name;
+                            } else if (compare < closest) {
+
+                                closest = compare
+                            }
+
+                        }
+                        console.log("closest " + closest + " name " + closestName);
+                    })
+
             });
 
+
     });
-
-
 
 
         // // AJAX post the data to the friends API.
@@ -205,6 +236,9 @@
         //   $("#results-modal").modal("toggle");
 
         // });
+
+        // alert("Please fill out all fields before submitting!");
+
 
 
 
