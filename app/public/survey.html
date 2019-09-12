@@ -163,8 +163,11 @@
         <!-- Modal content -->
         <div class="modal-content">
             <div class="modal-header">
-                <span class="close">&times;</span>
-                <h2>Best Match</h2>
+                <div id="matchTitle">
+                    <h2>Best Match</h2>
+                </div>
+                <div id="btnClose"><span class="close">&times;</span></div>
+
             </div>
             <div class="modal-body">
                 <img id="matchPhoto" src="">
@@ -210,8 +213,9 @@
                     .then(function (data) {
                         alert("Finding Friend...");
 
-
-
+                        var closest = 0;
+                        var closestName = "";
+                        var closestPhoto = "";
                         for (var j = 0; j < data.length - 1; j++) {
 
                             var otherFriendScore = 0;
@@ -219,17 +223,24 @@
                                 otherFriendScore += parseInt(data[j].scores[i])
                             }
                             console.log("other friend score:  " + otherFriendScore);
-                            var closestName = "";
-                            var closestPhoto = "";
-                            var closest = 0;
+
+
                             var compare = Math.abs(newFriendScore - otherFriendScore);
-                            if (closest == 0) {
+
+                            if (compare == 0) {
                                 closest = compare;
                                 closestName = data[j].name;
                                 closestPhoto = data[j].photo;
-                            } else if (compare < closest) {
-
-                                closest = compare
+                                break;
+                            } else if (closest == 0) {
+                                closest = compare;
+                                closestName = data[j].name;
+                                closestPhoto = data[j].photo;
+                            }
+                            else if (compare < closest) {
+                                closest = compare;
+                                closestName = data[j].name;
+                                closestPhoto = data[j].photo;
                             }
 
                         }

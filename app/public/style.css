@@ -1,7 +1,11 @@
+#myModal {
+  width: 500px;
+}
 .modal-header {
   padding: 2px 16px;
   background-color: #5a5a5a;
   color: white;
+  
 }
 
 .modal-body {
@@ -22,4 +26,11 @@
 
 #matchPhoto {
   width: 200px;
+}
+#matchTitle {
+  float: left;
+}
+
+#btnClose {
+  float: right;
 }
