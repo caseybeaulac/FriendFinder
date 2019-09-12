@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://code.jquery.com/jquery.js"></script>
+    <link rel="stylesheet" type="text/css" href="/style.css">
     <title>Friend Finder</title>
 </head>
 
@@ -157,7 +158,21 @@
             </div>
         </div>
     </div>
+    <div id="myModal" class="modal">
 
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">&times;</span>
+                <h2>Best Match</h2>
+            </div>
+            <div class="modal-body">
+                <img id="matchPhoto" src="">
+                <h2 id="matchName">
+            </div>
+        </div>
+
+    </div>
 </body>
 
 </html>
@@ -197,7 +212,7 @@
 
 
 
-                        for (var j = 0; j < data.length -1; j++) {
+                        for (var j = 0; j < data.length - 1; j++) {
 
                             var otherFriendScore = 0;
                             for (var i = 0; i < data[j].scores.length; i++) {
@@ -205,39 +220,38 @@
                             }
                             console.log("other friend score:  " + otherFriendScore);
                             var closestName = "";
+                            var closestPhoto = "";
                             var closest = 0;
                             var compare = Math.abs(newFriendScore - otherFriendScore);
                             if (closest == 0) {
                                 closest = compare;
                                 closestName = data[j].name;
+                                closestPhoto = data[j].photo;
                             } else if (compare < closest) {
 
                                 closest = compare
                             }
 
                         }
-                        console.log("closest " + closest + " name " + closestName);
+                        console.log("closest " + closest + " name " + closestName + "photo" + closestPhoto);
+                        var modal = document.getElementById("myModal");
+
+                        var btn = document.getElementById("submit");
+
+                        var span = document.getElementsByClassName("close")[0];
+                        modal.style.display = "block";
+                        span.onclick = function () {
+                            modal.style.display = "none";
+                        }
+                        $("#matchName").text(closestName);
+                        $("#matchPhoto").attr("src", closestPhoto);
+
                     })
 
             });
 
 
     });
-
-
-        // // AJAX post the data to the friends API.
-        // $.post("/api/friends", userData, function(data) {
-
-        //   // Grab the result from the AJAX post so that the best match's name and photo are displayed.
-        //   $("#match-name").text(data.name);
-        //   $("#match-img").attr("src", data.photo);
-
-        //   // Show the modal with the best match
-        //   $("#results-modal").modal("toggle");
-
-        // });
-
-        // alert("Please fill out all fields before submitting!");
 
 
 
